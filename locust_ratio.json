@@ -1,0 +1,32 @@
+{
+    "per_class": {
+        "OperationsUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "OperationsTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "get_operfeed": {
+                            "ratio": 1.0
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "total": {
+        "OperationsUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "OperationsTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "get_operfeed": {
+                            "ratio": 1.0
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
