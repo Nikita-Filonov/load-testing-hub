@@ -14,4 +14,4 @@ class LocustStatsProtocol(BaseModel):
 
     @field_validator("protocol", mode="before")
     def validate_protocol(cls, value: str) -> str | None:
-        return value or None
+        return value.lower() if value else None
