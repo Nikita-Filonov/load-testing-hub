@@ -15,7 +15,12 @@ class YAMLSchema(BaseModel):
 class JSONSchema(BaseModel):
     @classmethod
     def from_json(cls, file: FilePath) -> Self:
-        return cls.model_validate_json(file.read_text())
+        try:
+            content = file.read_text(encoding="utf-8-sig")
+        except UnicodeDecodeError:
+            content = file.read_text(encoding="utf-16")
+
+        return cls.model_validate_json(content)
 
 
 class CSVRootSchema(RootModel):
