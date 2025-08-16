@@ -35,9 +35,12 @@ You can upload Locust results directly from your Python code by using the raw AP
 import asyncio
 from pathlib import Path
 
+from pydantic import HttpUrl
+
 from load_testing_hub import (
     Service,
     Scenario,
+    Pipeline,
     upload_locust_report,
     UploadLocustReportParams
 )
@@ -61,6 +64,19 @@ async def main():
                 version="v1.0",  # Scenario version
                 number_of_users=500,  # Number of virtual users in the test
                 runtime_duration="3m"  # Test duration (3 minutes)
+            ),
+
+            # CI/CD pipeline that triggered the load test execution
+            trigger_pipeline=Pipeline(
+                ci_job_url=HttpUrl("http://localhost:8001/pipeline/1/job/3"),  # URL of the triggering job
+                ci_pipeline_url=HttpUrl("http://localhost:8001/pipeline/1"),  # URL of the triggering pipeline
+                ci_project_version="v1.11.0"  # Project version under test
+            ),
+
+            # CI/CD pipeline where the load test scenarios are located
+            load_tests_pipeline=Pipeline(
+                ci_job_url=HttpUrl("http://localhost:8001/pipeline/3/job/9"),  # URL of the load tests job
+                ci_pipeline_url=HttpUrl("http://localhost:8001/pipeline/3"),  # URL of the load tests pipeline
             ),
 
             # Paths to Locust report files
@@ -101,6 +117,17 @@ scenario:
   number_of_users: 500  # Number of virtual users executed in the test
   runtime_duration: "3m"  # Test runtime duration (3 minutes)
 
+# CI/CD pipeline that triggered the load test execution
+trigger_pipeline:
+  ci_job_url: "http://localhost:8001/pipeline/1/job/3"  # URL of the triggering job
+  ci_pipeline_url: "http://localhost:8001/pipeline/1"  # URL of the triggering pipeline
+  ci_project_version: "v1.11.0"  # Project version under test
+
+# CI/CD pipeline where the load test scenarios are located
+load_tests_pipeline:
+  ci_job_url: "http://localhost:8001/pipeline/3/job/9"  # URL of the load tests job
+  ci_pipeline_url: "http://localhost:8001/pipeline/3"  # URL of the load tests pipeline
+
 # Paths to Locust output files generated after test execution
 csv_locust_stats_file: "locust_stats.csv"  # Aggregated test statistics
 json_locust_ratio_file: "locust_ratio.json"  # Percentile and ratio statistics
@@ -131,6 +158,15 @@ Configuration file ([./examples/locust.json](./examples/locust.json)):
     "version": "v1.0",
     "number_of_users": 500,
     "runtime_duration": "3m"
+  },
+  "trigger_pipeline": {
+    "ci_job_url": "http://localhost:8001/pipeline/1/job/3",
+    "ci_pipeline_url": "http://localhost:8001/pipeline/1",
+    "ci_project_version": "v1.11.0"
+  },
+  "load_tests_pipeline": {
+    "ci_job_url": "http://localhost:8001/pipeline/3/job/9",
+    "ci_pipeline_url": "http://localhost:8001/pipeline/3"
   },
   "csv_locust_stats_file": "locust_stats.csv",
   "json_locust_ratio_file": "locust_ratio.json",

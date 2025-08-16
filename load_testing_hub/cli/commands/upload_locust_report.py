@@ -1,7 +1,7 @@
 import asyncio
 from pathlib import Path
 
-from load_testing_hub.src.providers.locust.controllers.results_history.upload import (
+from load_testing_hub.src.providers.locust.controllers.upload import (
     upload_locust_report,
     UploadLocustReportParams
 )

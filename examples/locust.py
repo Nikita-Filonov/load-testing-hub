@@ -1,8 +1,12 @@
 import asyncio
 from pathlib import Path
+
+from pydantic import HttpUrl
+
 from load_testing_hub import (
     Service,
     Scenario,
+    Pipeline,
     upload_locust_report,
     UploadLocustReportParams
 )
@@ -20,6 +24,15 @@ async def main():
                 version="v1.0",
                 number_of_users=500,
                 runtime_duration="3m"
+            ),
+            trigger_pipeline=Pipeline(
+                ci_job_url=HttpUrl("http://localhost:8001/pipeline/1/job/3"),
+                ci_pipeline_url=HttpUrl("http://localhost:8001/pipeline/1"),
+                ci_project_version="v1.11.0"
+            ),
+            load_tests_pipeline=Pipeline(
+                ci_job_url=HttpUrl("http://localhost:8001/pipeline/3/job/9"),
+                ci_pipeline_url=HttpUrl("http://localhost:8001/pipeline/3"),
             ),
             csv_locust_stats_file=Path("locust_stats.csv"),
             json_locust_ratio_file=Path("locust_ratio.json"),
