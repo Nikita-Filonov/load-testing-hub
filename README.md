@@ -35,8 +35,6 @@ You can upload Locust results directly from your Python code by using the raw AP
 import asyncio
 from pathlib import Path
 
-from pydantic import HttpUrl
-
 from load_testing_hub import (
     Service,
     Scenario,
@@ -68,15 +66,15 @@ async def main():
 
             # CI/CD pipeline that triggered the load test execution
             trigger_pipeline=Pipeline(
-                ci_job_url=HttpUrl("http://localhost:8001/pipeline/1/job/3"),  # URL of the triggering job
-                ci_pipeline_url=HttpUrl("http://localhost:8001/pipeline/1"),  # URL of the triggering pipeline
+                ci_job_url="http://localhost:8001/pipeline/1/job/3",  # URL of the triggering job
+                ci_pipeline_url="http://localhost:8001/pipeline/1",  # URL of the triggering pipeline
                 ci_project_version="v1.11.0"  # Project version under test
             ),
 
             # CI/CD pipeline where the load test scenarios are located
             load_tests_pipeline=Pipeline(
-                ci_job_url=HttpUrl("http://localhost:8001/pipeline/3/job/9"),  # URL of the load tests job
-                ci_pipeline_url=HttpUrl("http://localhost:8001/pipeline/3"),  # URL of the load tests pipeline
+                ci_job_url="http://localhost:8001/pipeline/3/job/9",  # URL of the load tests job
+                ci_pipeline_url="http://localhost:8001/pipeline/3",  # URL of the load tests pipeline
             ),
 
             # Paths to Locust report files
